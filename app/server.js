@@ -13,10 +13,7 @@ const yelp = new Yelp({
   token: 'nRxYF0X0vjU8qSlqcUEo_Syh_ZXXJ_vk',
   token_secret: '88wbOCX2jOW7iKjL5WIyKjNDPRc',
 });
-// $.ajax({
-//   url: ''
-// })
-// botkit controller
+
 const controller = botkit.slackbot({
   debug: false,
 });
@@ -154,7 +151,7 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
           convo.next();
           console.log(data);
 
-          const bname = data.businesses.map(post => {
+          const business = data.businesses.map(post => {
             convo.say(post.name);
 
             // https://github.com/howdyai/botkit#botreply
@@ -178,47 +175,17 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
             return post.name;
           });
 
-          console.log(bname);
-          convo.say('test');
-
-
-          // convo.next();
-          // convo.next();
-
-          // convo.say('TESTTEST');
-          // convo.say(data.total);
-          // convo.next();
+          console.log(business);
         })
         .catch((err) => {
           console.error(err);
         });
-
 
         convo.next();
       });
       conv.next();
     });
   });
-});
-
-// test attachment stuff
-
-controller.hears(['keyword'], ['direct_message, direct_mention'], (bot, message) => {
-  const replyAttachments = {
-    username: 'My bot',
-    text: 'This is a pre-text',
-    attachments: [
-      {
-        fallback: 'To be useful, I need you to invite me in a channel.',
-        title: 'How can I help you?',
-        text: 'To be useful, I need you to invite me in a channel ',
-        color: '#7CD197',
-      },
-    ],
-    icon_url: 'http://lorempixel.com/48/48',
-  };
-
-  bot.reply(message, replyAttachments);
 });
 
 
