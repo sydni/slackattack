@@ -53,18 +53,19 @@ controller.hears(['help'], ['direct_message', 'direct_mention', 'mention'], (bot
 controller.hears(['gif'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
   // https://github.com/howdyai/botkit#botreply
   const replyAttachments = {
-    text: 'Let me send you a funny picture!',
+    text: 'Let me send you something funny!',
     attachments: [
       {
         fallback: 'Oops! Something went wrong.',
-        title: 'Hahaha',
-        image_url: 'http://gph.is/29fM6Gx',
+        title: 'Penguin Slap',
+        image_url: 'http://i.giphy.com/ewHSMEx2TtEo8.gif',
         color: '#7CD197',
       },
     ],
   };
 
-  bot.reply(message, replyAttachments); });
+  bot.reply(message, replyAttachments);
+});
 
 
 // adapted from https://github.com/howdyai/botkit
