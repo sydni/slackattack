@@ -50,6 +50,22 @@ controller.hears(['help'], ['direct_message', 'direct_mention', 'mention'], (bot
   bot.reply(message, 'Hello, I am hot_bot! I can help you look for food near you, or ask you questions!');
 });
 
+controller.hears(['gif'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
+  // https://github.com/howdyai/botkit#botreply
+  const replyAttachments = {
+    text: 'Let me send you a funny picture!',
+    attachments: [
+      {
+        fallback: 'Oops! Something went wrong.',
+        title: 'Hahaha',
+        image_url: 'http://gph.is/29fM6Gx',
+        color: '#7CD197',
+      },
+    ],
+  };
+
+  bot.reply(message, replyAttachments); });
+
 
 // adapted from https://github.com/howdyai/botkit
 controller.hears(['ask me', 'question'], ['direct_message', 'direct_mention', 'mention'], (bot, message) => {
@@ -58,14 +74,14 @@ controller.hears(['ask me', 'question'], ['direct_message', 'direct_mention', 'm
     convo.ask('What do you think the meaning of life is?', [
       {
         pattern: '42',
-        callback: (response, convo) => {
+        callback: (response1, convo1) => {
           convo.say('What a creative answer');
           convo.ask('Do you read a lot?', [
             {
               pattern: bot.utterances.yes,
-              callback: (response, convo) => {
+              callback: (response, convo2) => {
                 convo.say('Cool me too!');
-                convo.ask('What is your favorite book?', (book, convo) => {
+                convo.ask('What is your favorite book?', (book, convo3) => {
                   convo.say(`${book.text} is a great book. Talk to you later!`);
                   convo.next();
                 });
@@ -74,8 +90,16 @@ controller.hears(['ask me', 'question'], ['direct_message', 'direct_mention', 'm
             },
             {
               pattern: bot.utterances.no,
-              callback: (response, convo) => {
+              callback: (response, convo2) => {
                 convo.say('You should read more. Talk to you later!');
+                convo.next();
+              },
+            },
+            {
+              default: true,
+              callback: (response2, convo2) => {
+                convo.say('I don\'t understand.');
+                convo.repeat();
                 convo.next();
               },
             },
@@ -85,13 +109,13 @@ controller.hears(['ask me', 'question'], ['direct_message', 'direct_mention', 'm
       },
       {
         pattern: 'food',
-        callback(response, convo) {
+        callback(response, convo1) {
           convo.say('We should catch up and get a meal sometime!');
           convo.ask('Are you free tomorrow?', [
             {
               pattern: bot.utterances.yes,
-              callback: (response, convo) => {
-                convo.ask('What time are you free?', (time, convo) => {
+              callback: (response2, convo2) => {
+                convo.ask('What time are you free?', (time, convo3) => {
                   convo.say(`Great! Let's meet at Foco at ${time.text}. See you then!`);
                   convo.next();
                 });
@@ -100,14 +124,14 @@ controller.hears(['ask me', 'question'], ['direct_message', 'direct_mention', 'm
             },
             {
               pattern: bot.utterances.no,
-              callback: (response, convo) => {
+              callback: (response2, convo2) => {
                 convo.say('Ouch.');
                 convo.next();
               },
             },
             {
               default: true,
-              callback: (response, convo) => {
+              callback: (response2, convo2) => {
                 convo.say('I don\'t understand.');
                 convo.repeat();
                 convo.next();
@@ -120,14 +144,14 @@ controller.hears(['ask me', 'question'], ['direct_message', 'direct_mention', 'm
       },
       {
         pattern: 'fun',
-        callback(response, convo) {
+        callback(response, convo1) {
           convo.say('You seem like a cool dude.');
           convo.next();
         },
       },
       {
         default: true,
-        callback(response, convo) {
+        callback(response, convo1) {
           convo.say('Wrong.');
           convo.repeat();
           convo.next();
@@ -187,6 +211,7 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
     });
   });
 });
+
 
 controller.on('outgoing_webhook', (bot, message) => {
   bot.replyPublic(message, 'yeah yeah I\'m awake');
