@@ -188,6 +188,10 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
   });
 });
 
+controller.on('outgoing_webhook', (bot, message) => {
+  bot.replyPublic(message, 'yeah yeah I\'m awake');
+});
+
 
 controller.on('direct_message', (bot, message) => {
   bot.reply(message, 'What are you even talking about?');
