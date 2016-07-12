@@ -196,13 +196,13 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
 
             convo.next();
 
-            if (!business) {
-              convo.say('I\'m sorry, there were no results');
-            }
+
             return post.name;
           });
 
           console.log(business);
+          convo.say('Feel free to try another search!');
+          convo.next();
         })
         .catch((err) => {
           convo.say(`Sorry, I couldn't find your location ${location.text}`);
