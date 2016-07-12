@@ -177,8 +177,6 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
           console.log(data);
 
           const business = data.businesses.map(post => {
-            convo.say(post.name);
-
             // https://github.com/howdyai/botkit#botreply
             const replyAttachments = {
               text: `You should go to ${post.name}!`,
@@ -197,6 +195,10 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
             bot.reply(message, replyAttachments);
 
             convo.next();
+
+            if (!business) {
+              convo.say('I\'m sorry, there were no results');
+            }
             return post.name;
           });
 
