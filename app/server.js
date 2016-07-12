@@ -168,8 +168,7 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
     con.ask('What do you want to eat?', (food, conv) => {
       conv.say(`You want ${food.text}?`); // figureout how to concatenate strings
       conv.ask('Where are you?', (location, convo) => {
-        // cite this later
-
+        // https://github.com/olalonde/node-yelp
         yelp.search({ term: food.text, location: location.text, limit: 1 })
         .then((data) => {
           convo.say(`Finding results near ${location.text}`);
@@ -206,7 +205,6 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
         })
         .catch((err) => {
           convo.say(`Sorry, I couldn't find your location ${location.text}`);
-          // convo.next();
           convo.repeat();
           console.error(err);
         });
