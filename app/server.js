@@ -203,6 +203,9 @@ controller.hears(['food', 'hungry'], ['direct_message', 'direct_mention', 'menti
           console.log(business);
         })
         .catch((err) => {
+          convo.say(`Sorry, I couldn't find your location ${location.text}`);
+          // convo.next();
+          convo.repeat();
           console.error(err);
         });
 
